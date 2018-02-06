@@ -89,17 +89,17 @@ static int get_station_index(const char *needle) {
  * Initialise the 'network' graph. Call exactly once on startup.
  */
 void metrolink_init(void) {
-	network = calloc(NUM_METROLINK_STATIONS, sizeof(link_t *));
-	visited = calloc(NUM_METROLINK_STATIONS, sizeof(bool));
-	valid_destinations = calloc(NUM_METROLINK_STATIONS, sizeof(bool));
+	network = new link_t*[NUM_METROLINK_STATIONS];
+	visited = new bool[NUM_METROLINK_STATIONS];
+	valid_destinations = new bool[NUM_METROLINK_STATIONS];
 	
 	for (size_t i = 0; i < NUM_METROLINK_STATIONS; i++) {
 		network[i] = NULL;
 	}
 	
 	for (size_t i = 0; i < NUM_METROLINK_LINKS; i++) {
-		link_t *link_a = malloc(sizeof(link_t));
-		link_t *link_b = malloc(sizeof(link_t));
+		link_t *link_a = new link_t;
+		link_t *link_b = new link_t;
 		
 		link_a->station_index = get_exact_station_index(METROLINK_LINKS[i].b);
 		link_b->station_index = get_exact_station_index(METROLINK_LINKS[i].a);
