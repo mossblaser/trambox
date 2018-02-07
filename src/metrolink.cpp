@@ -43,6 +43,36 @@ static int get_exact_station_index(const char *needle) {
 	return -1;
 }
 
+bool metrolink_station_names_equal(const char *a, const char *b) {
+	bool match = true;
+	while (*a && *b) {
+		// Skip whitespace and punctuation
+		while (!(isalnum(*a) || *a == ' ') && *a) {
+			a++;
+		}
+		while (!(isalnum(*b) || *b == ' ') && *b) {
+			b++;
+		}
+		
+		// Skip 'via'
+		if (strncmp(a, "via ", 4) == 0) {
+			a += strlen(a);
+		}
+		if (strncmp(b, "via ", 4) == 0) {
+			b += strlen(b);
+		}
+		
+		// Case-insensitive search
+		if (tolower(*a) != tolower(*b)) {
+			match = false;
+			break;
+		}
+		a++;
+		b++;
+	}
+	return match && *a == *b;
+}
+
 /**
  * Get the index of the station with the given name (ignoring punctuation and
  * case and 'via' clauses).
@@ -52,33 +82,7 @@ static int get_station_index(const char *needle) {
 		const char *a = METROLINK_STATIONS[i];
 		const char *b = needle;
 		
-		bool match = true;
-		while (*a && *b) {
-			// Skip whitespace and punctuation
-			while (!(isalnum(*a) || *a == ' ') && *a) {
-				a++;
-			}
-			while (!(isalnum(*b) || *b == ' ') && *b) {
-				b++;
-			}
-			
-			// Skip 'via'
-			if (strncmp(a, "via ", 4) == 0) {
-				a += strlen(a);
-			}
-			if (strncmp(b, "via ", 4) == 0) {
-				b += strlen(b);
-			}
-			
-			// Case-insensitive search
-			if (tolower(*a) != tolower(*b)) {
-				match = false;
-				break;
-			}
-			a++;
-			b++;
-		}
-		if (match && *a == *b) {
+		if (metrolink_station_names_equal(a, b)) {
 			return i;
 		}
 	}

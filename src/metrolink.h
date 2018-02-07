@@ -20,4 +20,10 @@ void metrolink_set_journey(const char *start, const char *target);
  */
 bool metrolink_is_destination_valid(const char *target);
 
+/**
+ * Compare two metrolink station names, ignoring case, punctuation and 'via'
+ * clauses. Returns true on equal.
+ */
+bool metrolink_station_names_equal(const char *a, const char *b);
+
 #endif
