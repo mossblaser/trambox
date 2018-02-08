@@ -27,7 +27,7 @@ You will need to setup:
 * A WiFi SSID and password
 * A [TFGM API key](https://developer.tfgm.com/developer)
 * A start and destination station. The time displayed will be the next tram
-  leaving the starting station which stops are the destination station.
+  leaving the starting station which stops at the destination station.
 * The display calibration, specifically the angle of the needle for each number
   of minutes which may be displayed.
 
